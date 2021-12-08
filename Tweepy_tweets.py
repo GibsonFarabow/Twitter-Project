@@ -96,9 +96,9 @@ MyListener = StreamListener(consumer_key, consumer_secret, access_token, access_
 
 
 ### iterate through tweets
-
-for tweet in tweepy.Cursor(api.search_tweets, "facebook", count=100).items(20):
-    if len(tweet.text) == 23 and ("https://t." in tweet.text): # filer if only a link
+avg = []
+for tweet in tweepy.Cursor(api.search_tweets, "facebook", count=100).items(5000):
+    if len(tweet.text) == 23 and ("https://t." in tweet.text): # filter if only a link
         pass
     if TextBlob(tweet.text).sentiment.polarity == 0:
         pass
@@ -108,6 +108,10 @@ for tweet in tweepy.Cursor(api.search_tweets, "facebook", count=100).items(20):
         text = api.get_status(i, tweet_mode='extended')
         print(text.full_text)
         x = text.full_text
-        print(p.polarity_scores(x)['compound'])
+        c = (p.polarity_scores(x)['compound'])
+        print(c)
+        avg.append(c)
         print('###')
+
+avg1 = sum(avg) / len(avg)
 
